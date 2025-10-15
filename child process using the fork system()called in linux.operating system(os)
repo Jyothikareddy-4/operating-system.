@@ -1,0 +1,24 @@
+#include <stdio.h> 
+#include <unistd.h> 
+#include <sys/types.h> // Good practice to include for pid_t, though often included by unistd.h
+
+int main() {  
+    pid_t pid; // Use pid_t for the process ID variable type
+
+    // 1. Create a child process
+    pid = fork();  
+
+    if (pid < 0) { 
+        // 2. Fork failed (Error)
+        fprintf(stderr, "Fork failed!\n"); // Use stderr for error messages
+        return 1;
+    } else if (pid == 0) { 
+        // 3. This is the Child Process
+        printf("This is the child process. PID = %d\n", getpid()); 
+    } else { 
+        // 4. This is the Parent Process
+        printf("This is the parent process. PID = %d, Child PID = %d\n", getpid(), pid); 
+    } 
+
+    return 0; 
+}
