@@ -1,0 +1,29 @@
+#include <stdio.h> 
+#include <unistd.h> 
+#include <sys/types.h>
+
+int main() {  
+    // Declare a variable to store the process ID returned by fork()
+    pid_t pid; 
+
+    // Create a new child process
+    // The program splits into two processes from this point
+    pid = fork();  
+
+    // Check the return value of fork() to differentiate the processes
+    if (pid < 0) {  
+        // 1. Error: fork() failed (returns -1)
+        fprintf(stderr, "Fork failed!\n"); 
+        return 1;
+    } else if (pid == 0) {  
+        // 2. Child Process: fork() returns 0
+        // getpid() is used to get its own Process ID
+        printf("This is the child process. PID = %d\n", getpid()); 
+    } else {  
+        // 3. Parent Process: fork() returns the Child's PID (> 0)
+        // getpid() is used to get the Parent's own Process ID
+        printf("This is the parent process. PID = %d, Child PID = %d\n", getpid(), pid); 
+    } 
+
+    return 0;
+}
